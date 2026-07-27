@@ -2,7 +2,7 @@
 
 # 📖 Cathay Reader
 
-**CathayOCR 配套双栏同步阅读器**
+**面向人文社科研究者的TXT/PDF双栏同步阅读器**
 
 *古籍 OCR 结果 PDF + TXT 双栏对照阅读*
 
@@ -12,7 +12,7 @@
 
 ## 📋 这是什么？
 
-**Cathay Reader** 是 [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) 的**配套阅读器**，专门用来对照阅读 CathayOCR 输出的双层 PDF 和纯文本 TXT 文件。
+**Cathay Reader** 是 [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) 的**配套阅读器**，专门用来对照阅读 CathayOCR 输出的双层 PDF 和纯文本 TXT 文件，也可作为普通阅读器使用。
 
 > CathayOCR 处理古籍 PDF 后，每本书会生成两个文件：
 > - `*_layered.pdf` — 图像+文字双层 PDF

@@ -1,0 +1,8 @@
+﻿*.pyc
+__pycache__/
+*.spec
+build/
+dist/
+_github_*.json
+_github_*.txt
+_*.py

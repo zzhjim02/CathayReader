@@ -10,6 +10,27 @@
 
 ---
 
+
+## 🔗 Cathay 人文研究工具链
+
+<div align="center">
+
+| 步骤 | 工具 | 功能 | 状态 |
+|:----:|:----|:----|:----:|
+| ① | [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) | 📄 多引擎 GPU 加速古籍 PDF 批处理 OCR | ✅ v1.1.0 |
+| ② | [**CathaySimplify**](https://github.com/zzhjim02/CathaySimplify) | 🔄 TXT 繁简体批量双向转换 | ✅ v1.0.0 |
+| ③ | **⭐ CathayReader (你在这里)** | 📖 PDF/TXT 双栏同步古籍校勘阅读器 | ✅ v1.0.0 |
+
+</div>
+
+**典型工作流：**
+```
+CathayOCR (OCR 古籍 PDF → 繁体 TXT) → CathaySimplify (繁→简) → CathayReader (双栏校勘)
+```
+
+---
+
+
 ## 📋 这是什么？
 
 **Cathay Reader** 是 [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) 的**配套阅读器**，专门用来对照阅读 CathayOCR 输出的双层 PDF 和纯文本 TXT 文件，也可作为普通阅读器使用。

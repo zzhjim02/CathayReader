@@ -68,9 +68,11 @@ def main():
     MainWindow._welcome_disabled = True
 
     # ---- 最小化启动 ----
+    from PyQt5.QtGui import QIcon
     app = QApplication(sys.argv)
     app.setApplicationName("Cathay Reader")
     app.setStyle("Fusion")
+    app.setWindowIcon(QIcon('CathayReader.ico'))
     app.setStyleSheet("")  # 不设全局样式
 
     try:

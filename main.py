@@ -69,10 +69,15 @@ def main():
 
     # ---- 最小化启动 ----
     from PyQt5.QtGui import QIcon
+    # PyInstaller 打包后图标在 sys._MEIPASS 下
+    def _icon_path(name):
+        if getattr(sys, 'frozen', False):
+            return os.path.join(sys._MEIPASS, name)
+        return name
     app = QApplication(sys.argv)
     app.setApplicationName("Cathay Reader")
     app.setStyle("Fusion")
-    app.setWindowIcon(QIcon('CathayReader.ico'))
+    app.setWindowIcon(QIcon(_icon_path('CathayReader.ico')))
     app.setStyleSheet("")  # 不设全局样式
 
     try:

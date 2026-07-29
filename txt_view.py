@@ -7,8 +7,9 @@ import re
 from typing import Optional
 
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal
-from PyQt5.QtGui import QFont, QColor, QTextCursor, QTextCharFormat
+from PyQt5.QtGui import QFont, QColor, QTextCursor, QTextCharFormat, QKeySequence
 from PyQt5.QtWidgets import (
+    QApplication,
     QWidget, QVBoxLayout, QTextEdit,
     QLineEdit, QHBoxLayout, QPushButton, QLabel, QStackedWidget
 )
@@ -31,6 +32,7 @@ class TxtViewWidget(QTextEdit):
         self._is_loading = False
         self._match_pos = []
         self._match_idx = -1
+        self._source_path = ""
         self._search_txt = ""
 
         self.setReadOnly(True)
@@ -55,6 +57,7 @@ class TxtViewWidget(QTextEdit):
             self._is_loading = False
             return False
 
+        self._source_path = txt_path
         self._page_index = PageIndex(txt_path)
         if not self._page_index.load():
             self._is_loading = False
@@ -80,6 +83,7 @@ class TxtViewWidget(QTextEdit):
 
     def clear(self):
         super().clear()
+        self._source_path = ""
         self._page_index = None
         self._current_page = 0
         self._match_pos = []
@@ -229,6 +233,43 @@ class TxtViewWidget(QTextEdit):
 
     @property
     def current_page(self): return self._current_page
+
+    @property
+    def source_path(self): return self._source_path
+
+    def _copy_with_citation(self):
+        """复制选中文字，末尾追加出处"""
+        cursor = self.textCursor()
+        if not cursor.hasSelection():
+            return
+        sel = cursor.selectedText()
+        if not sel:
+            return
+        fname = os.path.basename(self._source_path) if self._source_path else ""
+        citation = f"\n\n【出处：{fname} 第{self._current_page}页】"
+        QApplication.clipboard().setText(sel + citation)
+
+    def contextMenuEvent(self, event):
+        menu = self.createStandardContextMenu()
+        for a in menu.actions():
+            if a.text() in ("复制", "Copy") and a.isEnabled():
+                a.triggered.disconnect()
+                a.triggered.connect(self._copy_with_citation)
+                break
+        menu.exec_(event.globalPos())
+
+    def keyPressEvent(self, event):
+        if event.matches(QKeySequence.Copy) and self.textCursor().hasSelection():
+            self._copy_with_citation()
+        else:
+            super().keyPressEvent(event)
+
+    def copy(self):
+        """覆盖 QTextEdit.copy()，Ctrl+Insert 也带出处"""
+        if self.textCursor().hasSelection():
+            self._copy_with_citation()
+        else:
+            super().copy()
 
 
 class PlaceholderPage(QWidget):

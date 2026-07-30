@@ -14,7 +14,8 @@ from PyQt5.QtWidgets import (
     QLabel, QComboBox, QToolBar, QAction, QActionGroup,
     QStatusBar, QFileDialog, QMessageBox, QShortcut,
     QApplication, QToolButton, QInputDialog, QDialog, QPushButton,
-    QTableWidget, QTableWidgetItem, QHeaderView
+    QTableWidget, QTableWidgetItem, QHeaderView,
+    QDockWidget, QTreeWidget, QTreeWidgetItem
 )
 
 from file_matcher import FileMatcher, FilePair, identify_txt_variant, identify_pdf_variant
@@ -87,6 +88,9 @@ class MainWindow(QMainWindow):
         self._pdf_panel.pageChanged.connect(self._on_pdf_page_changed)
         self._txt_panel.pageChanged.connect(self._on_txt_page_changed)
 
+        # --- 目录侧栏 ---
+        self._create_toc_dock()
+
     def _create_toolbar(self):
         self._toolbar = QToolBar("主工具栏")
         self._toolbar.setMovable(False)
@@ -109,12 +113,14 @@ class MainWindow(QMainWindow):
             self._toolbar.addAction(a)
             return a
 
-        btn("打开目录 [Ctrl+O]", self._on_open_directory)
+        btn("打开文件夹 [Ctrl+O]", self._on_open_directory)
         btn("打开文件 [Ctrl+Shift+O]", self._on_open_file)
         self._toolbar.addSeparator()
         btn("放大 +", self._pdf_panel.zoom_in)
         btn("缩小 -", self._pdf_panel.zoom_out)
         btn("适应宽度", self._pdf_panel.zoom_fit_width)
+        self._toolbar.addSeparator()
+        btn("目录 [Ctrl+T]", self._toggle_toc)
         self._toolbar.addSeparator()
         btn("上页 [Left]", self._go_prev_page)
         btn("下页 [Right]", self._go_next_page)
@@ -222,6 +228,112 @@ class MainWindow(QMainWindow):
         QShortcut(QKeySequence("Ctrl+Shift+G"), self, self._on_search_prev)
         QShortcut(QKeySequence("Ctrl+Shift+C"), self, self._copy_pdf_text)
         QShortcut(QKeySequence("Ctrl+Shift+D"), self, self._copy_full_page_text)
+        QShortcut(QKeySequence("Ctrl+T"), self, self._toggle_toc)
+
+    # ── 目录侧栏 ──
+
+    def _create_toc_dock(self):
+        self._toc_dock = QDockWidget("PDF 目录", self)
+        self._toc_dock.setObjectName("TocDock")
+        self._toc_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable)
+        self._toc_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+
+        self._toc_tree = QTreeWidget()
+        self._toc_tree.setHeaderLabel("目录")
+        self._toc_tree.setIndentation(16)
+        self._toc_tree.setAnimated(True)
+        self._toc_tree.setStyleSheet("""
+            QTreeWidget {
+                background: #fafafa; border: none;
+                font-size: 12px; color: #333;
+            }
+            QTreeWidget::item {
+                padding: 4px 6px;
+                border-bottom: 1px solid #eee;
+            }
+            QTreeWidget::item:hover {
+                background: #e3f2fd;
+            }
+            QTreeWidget::item:selected {
+                background: #bbdefb; color: #1565c0;
+            }
+        """)
+        self._toc_tree.setMinimumWidth(180)
+        self._toc_tree.setMaximumWidth(400)
+        self._toc_tree.itemClicked.connect(self._on_toc_clicked)
+        self._toc_dock.setWidget(self._toc_tree)
+
+        self.addDockWidget(Qt.LeftDockWidgetArea, self._toc_dock)
+        self._toc_dock.hide()  # 默认隐藏
+
+        # 目录侧栏显隐时调整分栏宽度
+        self._toc_dock.visibilityChanged.connect(self._on_toc_visibility_changed)
+
+    def _on_toc_visibility_changed(self, visible):
+        """TOC 侧栏显示/隐藏后重新分配分栏宽度，避免右栏被挤压"""
+        QTimer.singleShot(0, self._adjust_splitter_sizes)
+
+    def _adjust_splitter_sizes(self):
+        """重新计算分栏宽度：PDF 至少留 450px，TXT 占余下空间"""
+        total_w = self._splitter.width()
+        min_pdf = 450
+        if total_w > min_pdf + 100:
+            self._splitter.setSizes([min_pdf, total_w - min_pdf - self._splitter.handleWidth()])
+
+    def _toggle_toc(self):
+        """切换目录侧栏显隐"""
+        self._toc_dock.setVisible(not self._toc_dock.isVisible())
+
+    def _populate_toc(self, toc_data):
+        """用 PDF 目录数据填充树控件"""
+        self._toc_tree.clear()
+        self._toc_page_map = {}  # QTreeWidgetItem → page_number
+
+        if not toc_data:
+            item = QTreeWidgetItem(["（无目录）"])
+            item.setDisabled(True)
+            self._toc_tree.addTopLevelItem(item)
+            return
+
+        # toc_data: [(level, title, page, ...), ...]
+        stack = []  # 保留各级最后插入的 item
+        for entry in toc_data:
+            level = entry[0]
+            title = entry[1]
+            page = entry[2]
+
+            item = QTreeWidgetItem([f"{title}  → 第{page}页"])
+            item.setData(0, Qt.UserRole, page)
+            self._toc_page_map[id(item)] = page
+
+            if level == 1 or not stack:
+                self._toc_tree.addTopLevelItem(item)
+                stack = [item]
+            else:
+                # 向上找到合适级别
+                while len(stack) >= level:
+                    stack.pop()
+                if stack:
+                    stack[-1].addChild(item)
+                else:
+                    self._toc_tree.addTopLevelItem(item)
+                stack.append(item)
+
+        self._toc_tree.expandAll()
+
+    def _on_toc_clicked(self, item, column):
+        """点击目录项 → 跳转到对应页"""
+        page = item.data(0, Qt.UserRole)
+        if page is None or not isinstance(page, int):
+            return
+        if page < 1 or page > self._pdf_panel.total_pages:
+            return
+        self._syncing = True
+        self._sync_to = page
+        self._pdf_panel.go_to_page(page)
+        self._txt_panel.go_to_page(page)
+        self._update_page_label()
+        QTimer.singleShot(500, self._release_sync)
 
 
     def _show_welcome(self):
@@ -230,10 +342,10 @@ class MainWindow(QMainWindow):
                 self, "Cathay Reader",
                 "欢迎使用 Cathay Reader\n\n"
                 "专为 CathayOCR 用户设计的双栏同步阅读器\n\n"
-                "- 点击[打开目录]选择包含 PDF/TXT 的目录\n"
+                "- 点击[打开文件夹]选择包含 PDF/TXT 的目录\n"
                 "- 支持同步滚动: PDF 翻页时 TXT 自动跳转\n"
                 "- 支持繁体/繁转简文本切换\n\n"
-                "快捷键: <-> 翻页 | Ctrl+ +/- 缩放 | Ctrl+O 打开目录"
+                "快捷键: <-> 翻页 | Ctrl+ +/- 缩放 | Ctrl+O 打开文件夹"
             )
         except Exception:
             pass
@@ -532,12 +644,15 @@ class MainWindow(QMainWindow):
             # 加载 PDF，无则显示引导页
             if pair.pdf_path and os.path.isfile(pair.pdf_path):
                 pdf_ok = self._pdf_panel.load_pdf(pair.pdf_path)
-                if not pdf_ok:
+                if pdf_ok:
+                    self._populate_toc(self._pdf_panel.get_toc())
+                else:
                     self._status_label.setText(f"PDF 加载失败: {pair.pdf_name}")
                     return
             else:
                 pdf_ok = False
                 self._pdf_panel.show_placeholder()
+                self._populate_toc([])  # 清空目录
 
             # 加载 TXT（自动检测繁/简模式）
             if txt_path and os.path.isfile(txt_path):

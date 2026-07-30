@@ -1,139 +1,155 @@
-<div align="center">
+# Cathay Reader
 
-# 📖 Cathay Reader
+> **CathayOCR 配套双栏同步阅读器** | [CathayOCR](https://github.com/zzhjim02/CathayOCR)
 
-**面向人文社科研究者的TXT/PDF双栏同步阅读器**
-
-*古籍 OCR 结果 PDF + TXT 双栏对照阅读*
-
-</div>
+一款专为古籍 OCR 校勘工作设计的桌面阅读器。将 OCR 识别后的 PDF 与 TXT 文件双栏并排展示，支持同步翻页、多版本 TXT 切换、PDF 文字检索与复制，大幅提升古籍校勘效率。
 
 ---
 
+## 软件截图
 
-## 🔗 Cathay 人文研究工具链
-
-<div align="center">
-
-| 步骤 | 工具 | 功能 | 状态 |
-|:----:|:----|:----|:----:|
-| ① | [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) | 📄 多引擎 GPU 加速古籍 PDF 批处理 OCR | ✅ v1.1.0 |
-| ② | [**CathaySimplify**](https://github.com/zzhjim02/CathaySimplify) | 🔄 TXT 繁简体批量双向转换 | ✅ v1.0.0 |
-| ③ | **⭐ CathayReader (你在这里)** | 📖 PDF/TXT 双栏同步古籍校勘阅读器 | ✅ v1.0.0 |
-
-</div>
-
-**典型工作流：**
 ```
-CathayOCR (OCR 古籍 PDF → 繁体 TXT) → CathaySimplify (繁→简) → CathayReader (双栏校勘)
+┌────────────────────────────────────────────────┐
+│  📁 打开目录  🔍搜索  ➕放大  ➖缩小  上页 下页  │
+├────────────────────────────────────────────────┤
+│ 目录: D:\古籍库\经部\西征纪程 │ 册: 第01册  │
+│ 文本: 原文 │ OCR: PPOCR-VL1.6 │ 字号: 11  │
+├────────────────────────────────────────┬───────┤
+│ [PDF 渲染区]                           │ [TXT] │
+│                                        │ 第1页  │
+│  古籍扫描页图片                         │ 正文… │
+│  页码浮层: 第 1 页                      │       │
+│                                        │ 第2页  │
+│                                        │ 正文… │
+├────────────────────────────────────────┴───────┤
+│ 就绪                         第 1/212 页       │
+└────────────────────────────────────────────────┘
 ```
 
 ---
 
+## 功能总览
 
-## 📋 这是什么？
-
-**Cathay Reader** 是 [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) 的**配套阅读器**，专门用来对照阅读 CathayOCR 输出的双层 PDF 和纯文本 TXT 文件，也可作为普通阅读器使用。
-
-> CathayOCR 处理古籍 PDF 后，每本书会生成两个文件：
-> - `*_layered.pdf` — 图像+文字双层 PDF
-> - `*_result.txt` — 纯文本识别结果
->
-> Cathay Reader 将它们**左右并排显示**，左侧 PDF、右侧 TXT，同步滚动，方便校勘。
-
----
-
-## ✨ 功能特性
-
+### 📖 核心阅读
 | 功能 | 说明 |
-|:----|:------|
-| 📂 **智能配对** | 自动匹配同名的 PDF + TXT（支持 7 级 OCR 输出后缀），拖入任意一个即自动配对 |
-| 📑 **双栏同步** | 左侧 PDF 渲染页、右侧 TXT 分页，滚动/翻页同步 |
-| 🔍 **全文搜索** | Ctrl+F 搜索，PDF 和 TXT 侧同时高亮，搜索结果可上下跳转 |
-| 📄 **复制文字** | 选中复制（Ctrl+C）、复制整页（Ctrl+Shift+C）、**复制整页含出处标注**（Ctrl+Shift+D） |
-| 🔤 **繁简切换** | TXT 侧一键繁简转换（OpenCC） |
-| 🎯 **页码智能检测** | 自动识别 OCR 输出中的 `≦N≧` / `第N页` / `===N===` 页码格式 |
-| 🔒 **加密 PDF 保护** | 加密 PDF 优雅提示，不会崩溃 |
-| 🖼️ **QPainter 渲染** | 虚拟滚动 + 后台增量渲染，大 PDF 流畅不卡 |
+|------|------|
+| **双栏同步阅读** | PDF 左栏 + TXT 右栏，翻页自动同步 |
+| **虚拟滚动渲染** | 大 PDF 流畅滚动，仅渲染可见页 |
+| **页码浮层** | 每页 PDF 图片上方叠加页码（半透明黑底白字） |
+| **TXT 翻页定位** | 根据页码标记自动定位到相应文本位置 |
 
-### 快捷键
+### 🔍 OCR 文件管理
+| 功能 | 说明 |
+|------|------|
+| **自动配对** | 同一目录下 PDF 与 TXT 按文件名自动配对 |
+| **多版本 TXT** | 支持多种 OCR 引擎输出共存，一键切换 |
+| **自定义后缀** | 可配置任意 PDF/TXT 文件名后缀映射关系 |
+| **孤立文件** | 无对应 TXT 的 PDF 或纯文本文件也能加载 |
 
-| 快捷键 | 功能 |
-|:------|:-----|
-| `Ctrl+O` | 打开文件 |
-| `Ctrl+F` | 搜索 |
-| `F3` / `Shift+F3` | 搜索下一个 / 上一个 |
-| `Ctrl+C` | 复制选中文字 |
-| `Ctrl+Shift+C` | 复制当前页全部文字 |
-| `Ctrl+Shift+D` | 复制当前页全部文字 + 出处标注 |
-| `Ctrl++` / `Ctrl+-` | 放大 / 缩小 |
-| `Ctrl+0` | 适应宽度 |
-| `PgUp` / `PgDn` | 上下翻页 |
-| `Home` / `End` | 跳到首页 / 末页 |
-| `Ctrl+Q` | 退出程序 |
+### 🔎 搜索与复制
+| 功能 | 说明 |
+|------|------|
+| **PDF 全文检索** | Ctrl+F 打开搜索栏，跨页高亮，▲/▼ 跳转 |
+| **PDF 目录导航** | Ctrl+T 打开左侧目录侧栏，点击跳转到对应页面 |
+| **PDF 文字复制** | 鼠标拖拽逐词高亮，Ctrl+Shift+C 复制 |
+| **整页文字复制** | 右键菜单选中「复制本页全部文字」 |
+| **出处自动标注** | 复制内容末尾自动追加 `【出处：文件名 第XX页】` |
+
+### 🛠 工具与配置
+| 功能 | 说明 |
+|------|------|
+| **后缀设置** | 图形化表格编辑器，任意多组后缀映射 |
+| **文本模式切换** | 原文 / 繁转简 一键切换 |
+| **字号调整** | TXT 字体大小实时调节 |
+| **独立打开文件** | Ctrl+Shift+O 打开单个文件，自动查找配对 |
+| **拖入打开** | 直接拖入 .pdf / .txt 文件或目录 |
+| **注册文件关联** | 「设为默认」按钮，.pdf 文件双击用本软件打开 |
+| **键盘快捷键** | ← → 翻页，Ctrl+O 开文件夹，Ctrl+F 搜索，Ctrl+T 目录，Ctrl++ 缩放 |
 
 ---
 
-## 🚀 快速上手
+## 支持的 OCR 后缀体系
 
+软件自动识别并优先排序以下 OCR 输出版本：
+
+| 层级 | 后缀标识 | OCR 引擎 |
+|------|---------|----------|
+| 1 | `_PDVL6AIFOCR` / `_PDVL6AIOCR` | PaddleOCR-VL1.6 |
+| 2 | `_PDVL5AIFOCR` / `_PDVL5AIOCR` | PaddleOCR-VL1.5 |
+| 3 | `_layered` / `_result` | CathayOCR 专业版 |
+| 4 | `_PD6AIFOCR` / `_PD6AIOCR` | PPOCR V6 |
+| 5 | `_PD5AIFOCR` / `_PD5AIOCR` | PPOCR V5 |
+| 6 | `_AIFOCR` / `_AIOCR` | 第1代 AI OCR |
+| 7 | `_FOCR` / `_OCR` | 传统 OCR |
+
+> 文件名示例：`西征纪程_PDVL6AIFOCR.txt` → 自动识别为 PPOCR-VL1.6 版本
+
+---
+
+## 快速开始
+
+### 下载
+从 [Releases](../../releases) 下载 `Cathay Reader v1.0.zip`，解压即可运行 `Cathay Reader.exe`（单文件，无需安装 Python）。
+
+### 使用步骤
+
+1. **运行**：双击 `Cathay Reader.exe`
+2. **打开文件夹**：点击工具栏「打开文件夹 [Ctrl+O]」，选择存放古籍 PDF/TXT 的文件夹
+3. **自动加载**：软件自动扫描目录，按文件名配对 PDF 和 TXT
+4. **翻阅**：在「册」下拉框选择卷册，用 ← → 或「上页/下页」按钮翻页
+5. **切换 OCR 版本**：在「OCR」下拉框选择不同引擎的识别结果
+6. **搜索**：按 Ctrl+F 打开搜索栏，输入关键词，支持 ▲/▼ 跳转
+
+### 自定义后缀匹配
+
+当 PDF 和 TXT 文件名不加标准 OCR 后缀时：
+
+1. 点击工具栏「后缀设置」
+2. 在表格中一行一个配对：`_扫校版` → `_校对稿`
+3. 保存后重新打开目录生效
+
+---
+
+## 系统要求
+
+- **操作系统**：Windows 7 / 10 / 11（64位）
+- **依赖**：无需安装 Python（单文件 exe）
+- **推荐**：内存 1GB 以上，CPU 支持 SSE2
+
+---
+
+## 开发指南
+
+### 环境
 ```bash
-1. 下载并打开 Cathay Reader
-2. 点击「打开 PDF 文件」或 Ctrl+O
-3. 选择任一 OCR 输出的 PDF 或 TXT 文件
-4. 自动配对 → 双栏显示 → 开始阅读校勘
+pip install PyMuPDF PyQt5
 ```
 
-> 💡 **提示**：配对支持的后缀名包括 `.pdf` / `_result.txt` / `_【繁转简】.txt` / `_PD6AIFOCR.txt` 等 7 级 OCR 输出格式。
-
----
-
-## 🔗 与 CathayOCR 的关系
-
+### 模块结构
 ```
-CathayOCR ──→ 批量 OCR 古籍 PDF → 输出双层 PDF + TXT
-     ↓
-Cathay Reader ──→ 对照阅读 OCR 结果
-```
-
-| 工具 | 做什么 | 谁需要 |
-|:----|:-------|:-------|
-| [**CathayOCR**](https://github.com/zzhjim02/CathayOCR) | 古籍 OCR 工具，把 PDF 扫描件转成可搜索的双层 PDF + TXT | 需要数字化古籍的研究者 |
-| **Cathay Reader** | 查看 OCR 结果的阅读器，PDF + TXT 双栏对照 | 需要校勘 OCR 效果的学者 |
-
-> 🚧 **计划中的配套工具**：CathayTranscriber（TXT 繁简转换）、CathayNotes（史料摘录与长编制作）—— 敬请期待！
-
----
-
-## 🗂️ 项目结构
-
-```
-CathayReader/
-├── Cathay Reader v1.0.exe   ← 发行版（PyInstaller 单文件打包）
-├── main.py                  ← 入口点
-├── pdf_view.py              ← PDF 渲染引擎（QPainter + 虚拟滚动）
-├── txt_view.py              ← TXT 分页显示
-├── ui_main.py               ← 主窗口 + 工具栏 + 快捷键
-├── file_matcher.py          ← 7 级 OCR 后缀自动配对
-├── page_parser.py           ← 页码格式自动检测
-└── README.md                ← 本文件
+Cathay Reader DEV/
+├── main.py              # 入口（环境修复、崩溃保护）
+├── ui_main.py           # 主窗口（工具栏、信息栏、双栏布局）
+├── pdf_view.py          # PDF 渲染（虚拟滚动、搜索、文字选择）
+├── txt_view.py          # TXT 显示（翻页定位、搜索）
+├── file_matcher.py      # 文件配对（OCR 后缀检测、自定义映射）
+├── page_parser.py       # 页码解析（多格式自动检测）
+└── README.md            # 本说明文件
 ```
 
----
-
-## 🛠️ 从源码运行
-
+### 打包
 ```bash
-# 需要 Python 3.10+，安装依赖：
-pip install PyQt5 PyMuPDF
-
-# 运行：
-python main.py
+pip install pyinstaller
+pyinstaller --onefile --windowed --name "Cathay Reader" ^
+  --hidden-import fitz --hidden-import PyQt5.sip ^
+  --hidden-import PyQt5.QtCore --hidden-import PyQt5.QtGui ^
+  --hidden-import PyQt5.QtWidgets main.py
 ```
 
 ---
 
-## 📜 许可证
+## 许可
 
-本项目基于 **GPLv3** 许可证开源。
+本项目遵循 [GPL-3.0 License](LICENSE)。
 
-作为 [CathayOCR](https://github.com/zzhjim02/CathayOCR) 的附属项目，与 CathayOCR 采用相同的许可证。
+配套 OCR 引擎：[CathayOCR](https://github.com/zzhjim02/CathayOCR) — 古籍专用高精度 OCR 工具集。

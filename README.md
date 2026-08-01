@@ -76,10 +76,10 @@
 |------|---------|----------|
 | 1 | `_PDVL6AIFOCR` / `_PDVL6AIOCR` | PaddleOCR-VL1.6 |
 | 2 | `_PDVL5AIFOCR` / `_PDVL5AIOCR` | PaddleOCR-VL1.5 |
-| 3 | `_layered` / `_result` | CathayOCR 专业版 |
-| 4 | `_PD6AIFOCR` / `_PD6AIOCR` | PPOCR V6 |
-| 5 | `_PD5AIFOCR` / `_PD5AIOCR` | PPOCR V5 |
-| 6 | `_AIFOCR` / `_AIOCR` | 第1代 AI OCR |
+| 3 | `_layered` / `_result` | CathayOCR 轻量版/专业版/开发版 |
+| 4 | `_PD6AIFOCR` / `_PD6AIOCR` | PaddleOCR V6 |
+| 5 | `_PD5AIFOCR` / `_PD5AIOCR` | PaddleOCR V5 |
+| 6 | `_AIFOCR` / `_AIOCR` |  AI OCR 通用 |
 | 7 | `_FOCR` / `_OCR` | 传统 OCR |
 
 > 文件名示例：`西征纪程_PDVL6AIFOCR.txt` → 自动识别为 PPOCR-VL1.6 版本

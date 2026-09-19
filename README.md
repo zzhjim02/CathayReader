@@ -1,8 +1,26 @@
 # Cathay Reader
 
-> **CathayOCR 配套双栏同步阅读器** | [CathayOCR](https://github.com/zzhjim02/CathayOCR)
+> **Cathay 工具链第 ⑤ 步 · 双栏同步阅读器** | [CathayOCR](https://github.com/zzhjim02/CathayOCR) · [CathayRestore](https://github.com/zzhjim02/CathayRestore) · [CathaySimplify](https://github.com/zzhjim02/CathaySimplify) · [CathayShelf](https://github.com/zzhjim02/CathayShelf)
 
 一款专为古籍 OCR 校勘工作设计的桌面阅读器。将 OCR 识别后的 PDF 与 TXT 文件双栏并排展示，支持同步翻页、多版本 TXT 切换、PDF 文字检索与复制，大幅提升古籍校勘效率。
+
+---
+
+## 🧩 Cathay 人文研究工具链
+
+<div align="center">
+
+| 步骤 | 工具 | 功能 | 状态 |
+|:----:|:----|:----|:----:|
+| ① | [**CathayOCR** →](https://github.com/zzhjim02/CathayOCR) | 📄 多引擎 GPU 加速古籍 PDF 批处理 OCR | ✅ v1.2.4 |
+| ② | [**CathayRestore** →](https://github.com/zzhjim02/CathayRestore) | 🔎 TXT 文本层写回 PDF（竖排/透明/可搜索） | ✅ v1.0 |
+| ③ | [**CathaySimplify** →](https://github.com/zzhjim02/CathaySimplify) | 🔄 TXT 繁简体批量双向转换 · 编码智能适配 | ✅ v1.0.0 |
+| ④ | [**CathayShelf** →](https://github.com/zzhjim02/CathayShelf) | 🗂️ 批量著录建夹 · 后缀替换 · 繁简转换+编码规范化 | ✅ v0.4.3 |
+| ⑤ | **⭐ CathayReader (你在这里)** | 📖 PDF/TXT 双栏同步古籍校勘阅读器 | ✅ v1.0.0 |
+
+</div>
+
+**一条龙完成古籍数字化：** `CathayOCR` 扫描 PDF → `CathayRestore` 修正文字层 → `CathaySimplify` / `CathayShelf` 繁简统一与批量著录 → `CathayReader` 双栏校勘
 
 ---
 

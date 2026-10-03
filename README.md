@@ -1,3 +1,14 @@
+> [!WARNING]
+> **本仓库已停止更新（归档保存）。**
+>
+> CathayReader 的双栏对照阅读已被 **[CathayHub](https://github.com/zzhjim02/CathayHub)** 的
+> 「CathayHub Viewer」完整取代：图文对读（`Ctrl+Shift+D`）左边 PDF 原貌、右边识别文字，
+> 还能自动把同一本书的 PDF / OCR TXT / 繁转简 TXT 认成一本，不用自己配对。
+>
+> **请改用 [CathayHub](https://github.com/zzhjim02/CathayHub/releases)。** 本仓库保留为历史存档。
+
+---
+
 # Cathay Reader
 
 > **Cathay 工具链主线第 ⑤ 步 · 双栏同步阅读器** | [CathayIndex](https://github.com/zzhjim02/CathayIndex) · [CathayFinder](https://github.com/zzhjim02/CathayFinder) · [CathayOCR](https://github.com/zzhjim02/CathayOCR) · [CathayShelf](https://github.com/zzhjim02/CathayShelf) · [CathayReader](https://github.com/zzhjim02/CathayReader)

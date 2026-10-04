@@ -1,7 +1,7 @@
 > [!WARNING]
 > **本仓库已停止更新（归档保存）。**
 >
-> CathayReader 的双栏对照阅读已被 **[CathayHub](https://github.com/zzhjim02/CathayHub)** · [CathayDir](https://github.com/zzhjim02/CathayDir) 的
+> CathayReader 的双栏对照阅读已被 **[CathayHub](https://github.com/zzhjim02/CathayHub)** 的
 > 「CathayHub Viewer」完整取代：图文对读（`Ctrl+Shift+D`）左边 PDF 原貌、右边识别文字，
 > 还能自动把同一本书的 PDF / OCR TXT / 繁转简 TXT 认成一本，不用自己配对。
 >
@@ -27,7 +27,7 @@
 | 步骤 | 工具 | 一句话 | 版本 |
 |:---:|---|---|---|
 | ⓪ | [CathayRepair](https://github.com/zzhjim02/CathayRepair) | PDF 打不开、一翻就崩 → 先把它抢救回来 | v1.0.0 |
-| ① | [CathayPDG](https://github.com/zzhjim02/CathayPDG) | 读秀 / 超星的 PDG 压缩包 → PDF | v0.1.8 |
+| ① | [CathayPDG](https://github.com/zzhjim02/CathayPDG) | 读秀 / 超星的 PDG 压缩包 → PDF | v0.1.9 |
 | ② | [CathayOCR](https://github.com/zzhjim02/CathayOCR) | 扫描件做 OCR → 能搜索、能复制的 PDF | v1.2.4 |
 | ③ | [CathayRestore](https://github.com/zzhjim02/CathayRestore) | 把 OCR 出来的 TXT 写回 PDF，做成双层 | v1.0.0 |
 | ④ | [CathayExtract](https://github.com/zzhjim02/CathayExtract) | 已经是双层 PDF → 直接把文字抽成 TXT | v1.2.3 |
@@ -46,12 +46,6 @@
 | [CathayViewer](https://github.com/zzhjim02/CathayViewer) | 已并入 ⑦ CathayHub Viewer |
 | **CathayReader（本仓库）** | 已由 ⑦ CathayHub Viewer 取代 |
 | [CathaySimplify](https://github.com/zzhjim02/CathaySimplify) | 已并入 ⑤ CathayShelf 的「繁简转换 / 编码规范化」 |
-
-**🛠️ 备用小工具（不占主线，按需取用）**
-
-| 工具 | 什么时候想到它 |
-|---|---|
-| [CathayDir](https://github.com/zzhjim02/CathayDir) | 成批 PDF 摆在那儿，想先知道各自是**横排还是竖排**（分流做 OCR、挑引擎参数、建库前摸底）—— 每 10 页抽一页批量判，结果能存 CSV，也能直接分成「横排 / 竖排 / 未知」三个柜。判定算法借自 CathayPDG |
 
 ---
 

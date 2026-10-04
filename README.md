@@ -1,7 +1,7 @@
 > [!WARNING]
 > **本仓库已停止更新（归档保存）。**
 >
-> CathayReader 的双栏对照阅读已被 **[CathayHub](https://github.com/zzhjim02/CathayHub)** 的
+> CathayReader 的双栏对照阅读已被 **[CathayHub](https://github.com/zzhjim02/CathayHub)** · [CathayDir](https://github.com/zzhjim02/CathayDir) 的
 > 「CathayHub Viewer」完整取代：图文对读（`Ctrl+Shift+D`）左边 PDF 原貌、右边识别文字，
 > 还能自动把同一本书的 PDF / OCR TXT / 繁转简 TXT 认成一本，不用自己配对。
 >

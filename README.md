@@ -28,7 +28,7 @@
 |:---:|---|---|---|
 | ⓪ | [CathayRepair](https://github.com/zzhjim02/CathayRepair) | PDF 打不开、一翻就崩 → 先把它抢救回来 | v1.0.0 |
 | ① | [CathayPDG](https://github.com/zzhjim02/CathayPDG) | 读秀 / 超星的 PDG 压缩包 → PDF | v0.2.0 |
-| ② | [CathayOCR](https://github.com/zzhjim02/CathayOCR) | 扫描件做 OCR → 能搜索、能复制的 PDF | v1.2.4 |
+| ② | [CathayOCR](https://github.com/zzhjim02/CathayOCR) | 扫描件做 OCR → 能搜索、能复制的 PDF | v1.2.4 稳定 / v1.3.5 测试 |
 | ③ | [CathayRestore](https://github.com/zzhjim02/CathayRestore) | 把 OCR 出来的 TXT 写回 PDF，做成双层 | v1.0.0 |
 | ④ | [CathayExtract](https://github.com/zzhjim02/CathayExtract) | 已经是双层 PDF → 直接把文字抽成 TXT | v1.2.3 |
 | ⑤ | [CathayShelf](https://github.com/zzhjim02/CathayShelf) | 批量建档归位、规范命名、繁简转换 | v0.4.8 |
@@ -119,7 +119,7 @@
 |------|---------|----------|
 | 1 | `_PDVL6AIFOCR` / `_PDVL6AIOCR` | PaddleOCR-VL1.6 |
 | 2 | `_PDVL5AIFOCR` / `_PDVL5AIOCR` | PaddleOCR-VL1.5 |
-| 3 | `_layered` / `_result` | CathayOCR 轻量版/专业版/开发版 |
+| 3 | `_layered` / `_result` | CathayOCR 轻量版/专业版 |
 | 4 | `_PD6AIFOCR` / `_PD6AIOCR` | PaddleOCR V6 |
 | 5 | `_PD5AIFOCR` / `_PD5AIOCR` | PaddleOCR V5 |
 | 6 | `_AIFOCR` / `_AIOCR` |  AI OCR 通用 |
